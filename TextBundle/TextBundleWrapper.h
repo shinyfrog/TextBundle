@@ -9,23 +9,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const TextBundleErrorDomain;
+
+typedef NS_ENUM(NSInteger, TextBundleError)
+{
+    TextBundleErrorInvalidFormat,
+};
+
 @interface TextBundleWrapper : NSObject
 
 @property (strong, nonnull) NSString *text;
-@property (strong, nullable) NSMutableArray *assetsURLs;
+@property (strong, nonnull) NSFileWrapper *assetsFileWrapper;
 
-@property (strong, nonatomic) NSNumber *version;
-@property (strong, nonatomic) NSString *type;
-@property (strong, nonatomic) NSNumber *transient;
-@property (strong, nonatomic) NSString *creatorIdentifier;
+@property (strong) NSNumber *version;
+@property (strong) NSString *type;
+@property (strong) NSNumber *transient;
+@property (strong) NSString *creatorIdentifier;
 
 @property (strong) NSMutableDictionary *metadata;
 
-
 - (instancetype)initWithContentsOfURL:(NSURL *)url error:(NSError **)error;
-
 - (BOOL)writeToURL:(NSURL *)url error:(NSError **)error;
-
 
 @end
 

@@ -7,12 +7,18 @@
 
 #import "TextBundleWrapper.h"
 
+// Filenames constants
 NSString * const kTextBundleInfoFileName = @"info.json";
 NSString * const kTextBundleAssetsFileName = @"assets";
 
-@interface TextBundleWrapper ()
+// Metadata constants
+NSString * const kTextBundleVersion = @"version";
+NSString * const kTextBundleType = @"type";
+NSString * const kTextBundleTransient = @"transient";
+NSString * const kTextBundleCreatorIdentifier = @"creatorIdentifier";
 
-@end
+// Error constants
+NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 @implementation TextBundleWrapper
 
@@ -23,6 +29,9 @@ NSString * const kTextBundleAssetsFileName = @"assets";
         self.metadata = [NSMutableDictionary dictionary];
         self.version = @(2);
         self.type = @"net.daringfireball.markdown";
+        
+        self.assetsFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
+        self.assetsFileWrapper.preferredFilename = kTextBundleAssetsFileName;
     }
     
     return self;
@@ -41,6 +50,7 @@ NSString * const kTextBundleAssetsFileName = @"assets";
     return self;
 }
 
+#pragma mark - Writing
 
 - (BOOL)writeToURL:(NSURL *)url error:(NSError **)error
 {
@@ -53,14 +63,14 @@ NSString * const kTextBundleAssetsFileName = @"assets";
     [textBundleFileWrapper addRegularFileWithContents:[self jsonDataForMetadata:self.metadata] preferredFilename:kTextBundleInfoFileName];
     
     // Assets
-    NSFileWrapper *assetsFileWrapper = [self assetsFilewrapperForFilesURLs:self.assetsURLs];
-    if (assetsFileWrapper) {
-        [textBundleFileWrapper addFileWrapper:assetsFileWrapper];
+    if (self.assetsFileWrapper && self.assetsFileWrapper.fileWrappers.count) {
+        [textBundleFileWrapper addFileWrapper:self.assetsFileWrapper];
     }
     
     return [textBundleFileWrapper writeToURL:url options:NSFileWrapperWritingAtomic originalContentsURL:url error:error];
 }
 
+#pragma mark - Reading
 
 - (BOOL)readFromURL:(NSURL *)url error:(NSError **)error
 {
@@ -77,13 +87,21 @@ NSString * const kTextBundleAssetsFileName = @"assets";
         NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:0 error:error];
         
         self.metadata          = [jsonObject mutableCopy];
-        self.version           = self.metadata[@"version"];
-        self.type              = self.metadata[@"type"];
-        self.transient         = self.metadata[@"transient"];
-        self.creatorIdentifier = self.metadata[@"creatorIdentifier"];
-
+        self.version           = self.metadata[kTextBundleVersion];
+        self.type              = self.metadata[kTextBundleType];
+        self.transient         = self.metadata[kTextBundleTransient];
+        self.creatorIdentifier = self.metadata[kTextBundleCreatorIdentifier];
+        
+        [self.metadata removeObjectForKey:kTextBundleVersion];
+        [self.metadata removeObjectForKey:kTextBundleType];
+        [self.metadata removeObjectForKey:kTextBundleTransient];
+        [self.metadata removeObjectForKey:kTextBundleCreatorIdentifier];
     }
     else {
+        if (error) {
+            *error = [NSError errorWithDomain:TextBundleErrorDomain code:TextBundleErrorInvalidFormat userInfo:nil];
+        }
+
         return NO;
     }
     
@@ -94,17 +112,23 @@ NSString * const kTextBundleAssetsFileName = @"assets";
         self.text = [[NSString alloc] initWithContentsOfURL:textFileURL usedEncoding:nil error:error];
     }
     else {
+        if (error) {
+            *error = [NSError errorWithDomain:TextBundleErrorDomain code:TextBundleErrorInvalidFormat userInfo:nil];
+        }
+        
         return NO;
     }
     
     // Assets
-    NSFileWrapper *assetsFileWrapper = [[textBundleFileWrapper fileWrappers] objectForKey:kTextBundleAssetsFileName];
-    if (assetsFileWrapper) {
-        self.assetsURLs = [[[NSFileManager defaultManager] contentsOfDirectoryAtURL:[url URLByAppendingPathComponent:assetsFileWrapper.filename] includingPropertiesForKeys:nil options:0 error:error] mutableCopy];
+    NSFileWrapper *assetsWrapper = [[textBundleFileWrapper fileWrappers] objectForKey:kTextBundleAssetsFileName];
+    if (assetsWrapper) {
+        self.assetsFileWrapper = assetsWrapper;
     }
     
     return YES;
 }
+
+#pragma mark - Text
 
 - (NSString *)textFileNameInFileWrapper:(NSFileWrapper*)fileWrapper
 {
@@ -125,44 +149,23 @@ NSString * const kTextBundleAssetsFileName = @"assets";
     return [@"text" stringByAppendingPathExtension:ext];
 }
 
+#pragma mark - Metadata
+
 - (NSData *)jsonDataForMetadata:(NSDictionary *)metadata
 {
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:metadata
+    NSMutableDictionary *allMetadata = [NSMutableDictionary dictionary];
+    [allMetadata addEntriesFromDictionary:metadata];
+    
+    if (self.version)           { allMetadata[kTextBundleVersion] = self.version;                     }
+    if (self.type)              { allMetadata[kTextBundleType] = self.type;                           }
+    if (self.transient)         { allMetadata[kTextBundleTransient] = self.transient;                 }
+    if (self.creatorIdentifier) { allMetadata[kTextBundleCreatorIdentifier] = self.creatorIdentifier; }
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:allMetadata
                                                        options:NSJSONWritingPrettyPrinted
                                                          error:nil];
     
     return jsonData;
 }
-
-- (NSFileWrapper *)assetsFilewrapperForFilesURLs:(NSArray *)filesURLs
-{
-    NSFileWrapper *assetsFileWrapper = nil;
-    
-    if (filesURLs && filesURLs.count) {
-        assetsFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
-        assetsFileWrapper.preferredFilename = kTextBundleAssetsFileName;
-        
-        for (NSURL *fileURL in filesURLs) {
-            NSFileWrapper *fileWrapper = [[NSFileWrapper alloc] initWithURL:fileURL options:NSFileWrapperReadingWithoutMapping error:nil];
-            if (fileWrapper) {
-                [assetsFileWrapper addFileWrapper:fileWrapper];
-            }
-        }
-    }
-    
-    return assetsFileWrapper;
-}
-
-- (NSNumber *)version { return self.metadata[@"version"]; }
-- (void)setVersion:(NSNumber *)version { self.metadata[@"version"] = version; }
-
-- (NSString *)type { return self.metadata[@"type"]; }
-- (void)setType:(NSString *)type { self.metadata[@"type"] = type; }
-
-- (NSNumber *)transient { return self.metadata[@"transient"]; }
-- (void)setTransient:(NSNumber *)transient { self.metadata[@"transient"] = transient; }
-
-- (NSString *)creatorIdentifier { return self.metadata[@"creatorIdentifier"]; }
-- (void)setCreatorIdentifier:(NSString *)creatorIdentifier { self.metadata[@"creatorIdentifier"] = creatorIdentifier; }
 
 @end

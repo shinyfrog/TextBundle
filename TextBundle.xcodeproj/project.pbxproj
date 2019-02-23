@@ -14,6 +14,8 @@
 		0C256C9422200B2800CB89C9 /* TextBundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C256C6C221FFA1600CB89C9 /* TextBundle.framework */; };
 		0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */; };
 		0C256CA022202ED000CB89C9 /* only text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9E22202ED000CB89C9 /* only text.textbundle */; };
+		0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23601222195BD005A4E82 /* invalid no text.textbundle */; };
+		0CB23604222195BD005A4E82 /* invalid no info.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23602222195BD005A4E82 /* invalid no info.textbundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +39,8 @@
 		0C256C9322200B2800CB89C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "text plus attachments.textbundle"; sourceTree = "<group>"; };
 		0C256C9E22202ED000CB89C9 /* only text.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "only text.textbundle"; sourceTree = "<group>"; };
+		0CB23601222195BD005A4E82 /* invalid no text.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "invalid no text.textbundle"; sourceTree = "<group>"; };
+		0CB23602222195BD005A4E82 /* invalid no info.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "invalid no info.textbundle"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,8 @@
 			children = (
 				0C256C9E22202ED000CB89C9 /* only text.textbundle */,
 				0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */,
+				0CB23602222195BD005A4E82 /* invalid no info.textbundle */,
+				0CB23601222195BD005A4E82 /* invalid no text.textbundle */,
 			);
 			path = "Sample TextBundles";
 			sourceTree = "<group>";
@@ -212,7 +218,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C256CA022202ED000CB89C9 /* only text.textbundle in Resources */,
+				0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */,
 				0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */,
+				0CB23604222195BD005A4E82 /* invalid no info.textbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
