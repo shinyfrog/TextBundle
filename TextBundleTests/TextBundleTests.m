@@ -33,8 +33,10 @@
 {
     NSURL *fileURL = [self textBundleURLForFilename:@"only text"];
     
+    
+    
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(e);
     
@@ -53,7 +55,7 @@
     NSURL *fileURL = [self textBundleURLForFilename:@"text plus attachments"];
     
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(e);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
@@ -64,7 +66,7 @@
     NSURL *fileURL = [self textBundleURLForFilename:@"invalid no info"];
     
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(tb);
     XCTAssertEqualObjects(e.domain, TextBundleErrorDomain);
@@ -76,7 +78,7 @@
     NSURL *fileURL = [self textBundleURLForFilename:@"invalid no text"];
     
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(tb);
     XCTAssertEqualObjects(e.domain, TextBundleErrorDomain);
@@ -89,17 +91,17 @@
 {
     NSURL *fileURL = [self textBundleURLForFilename:@"text plus attachments"];
     NSURL *targetURL = [[NSURL fileURLWithPath:NSTemporaryDirectory()] URLByAppendingPathComponent:@"test.textbundle"];
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL error:nil];
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:nil];
 
     NSError *e = nil;
-    BOOL success = [tb writeToURL:targetURL error:&e];
+    BOOL success = [tb writeToURL:targetURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&e];
     
     XCTAssertTrue(success);
     XCTAssertNil(e);
     
     e = nil;
 
-    TextBundleWrapper *newTB = [[TextBundleWrapper new] initWithContentsOfURL:targetURL error:&e];
+    TextBundleWrapper *newTB = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(e);
 
@@ -121,7 +123,7 @@
     NSURL *targetURL = [[NSURL fileURLWithPath:NSTemporaryDirectory()] URLByAppendingPathComponent:@"test.textbundle"];
     
     NSError *e = nil;
-    BOOL success = [tb writeToURL:targetURL error:&e];
+    BOOL success = [tb writeToURL:targetURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&e];
     
     XCTAssertNil(e);
     XCTAssertTrue(success);    

@@ -11,6 +11,7 @@
 // Filenames constants
 NSString * const kTextBundleInfoFileName = @"info.json";
 NSString * const kTextBundleAssetsFileName = @"assets";
+NSString * const kTextBundleMarkdownUTI = @"net.daringfireball.markdown";
 
 // Metadata constants
 NSString * const kTextBundleVersion = @"version";
@@ -27,9 +28,11 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 {
     self = [super init];
     if (self) {
+        // Setting some default values
         self.metadata = [NSMutableDictionary dictionary];
         self.version = @(2);
-        self.type = @"net.daringfireball.markdown";
+        self.type = kTextBundleMarkdownUTI;
+        self.transient = @(NO);
         
         self.assetsFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
         self.assetsFileWrapper.preferredFilename = kTextBundleAssetsFileName;
@@ -38,12 +41,12 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     return self;
 }
 
-- (instancetype)initWithContentsOfURL:(NSURL *)url error:(NSError **)error
+- (instancetype)initWithContentsOfURL:(NSURL *)url options:(NSFileWrapperReadingOptions)options error:(NSError **)error
 {
     self = [self init];
     if (self) {
         
-        BOOL success = [self readFromURL:url error:error];
+        BOOL success = [self readFromURL:url options:options error:error];
         if (!success) {
             return nil;
         }
@@ -53,7 +56,7 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 #pragma mark - Writing
 
-- (BOOL)writeToURL:(NSURL *)url error:(NSError **)error
+- (BOOL)writeToURL:(NSURL *)url options:(NSFileWrapperWritingOptions)options originalContentsURL:(nullable NSURL *)originalContentsURL error:(NSError **)error
 {
     NSFileWrapper *textBundleFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
     
@@ -68,14 +71,14 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
         [textBundleFileWrapper addFileWrapper:self.assetsFileWrapper];
     }
     
-    return [textBundleFileWrapper writeToURL:url options:NSFileWrapperWritingAtomic originalContentsURL:url error:error];
+    return [textBundleFileWrapper writeToURL:url options:options originalContentsURL:originalContentsURL error:error];
 }
 
 #pragma mark - Reading
 
-- (BOOL)readFromURL:(NSURL *)url error:(NSError **)error
+- (BOOL)readFromURL:(NSURL *)url options:(NSFileWrapperReadingOptions)options error:(NSError **)error
 {
-    NSFileWrapper *textBundleFileWrapper = [[NSFileWrapper alloc] initWithURL:url options:NSFileWrapperReadingWithoutMapping error:error];
+    NSFileWrapper *textBundleFileWrapper = [[NSFileWrapper alloc] initWithURL:url options:options error:error];
     
     if (error &&  *error != nil) {
         return NO;
@@ -133,6 +136,7 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 - (NSString *)textFileNameInFileWrapper:(NSFileWrapper*)fileWrapper
 {
+    // Finding the text.* file inside the .textbundle
     __block NSString *filename = nil;
     [[fileWrapper fileWrappers] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSFileWrapper * obj, BOOL *stop)
     {
