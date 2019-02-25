@@ -6,6 +6,7 @@
 //
 
 #import "TextBundleWrapper.h"
+#import <CoreServices/CoreServices.h>
 
 // Filenames constants
 NSString * const kTextBundleInfoFileName = @"info.json";
