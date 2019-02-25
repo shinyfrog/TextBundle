@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger, TextBundleError)
  The default implementation of this method attempts to avoid unnecessary I/O by writing hard links to regular files
  instead of actually writing out their contents when the contents have not changed.
  @param error If an error occurs, upon return contains an NSError object that describes the problem. Pass NULL if you do not want error information.
- @return YES when the write operation is successful. If not successful, returns NO after setting outError to an NSError object that describes the reason why the TextBundleWrapper's contents could not be written.
+ @return YES when the write operation is successful. If not successful, returns NO after setting error to an NSError object that describes the reason why the TextBundleWrapper's contents could not be written.
  */
 - (BOOL)writeToURL:(NSURL *)url options:(NSFileWrapperWritingOptions)options originalContentsURL:(nullable NSURL *)originalContentsURL error:(NSError **)error;
 
