@@ -9,6 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString * const kUTTypeMarkdown;
+extern NSString * const kUTTypeTextBundle;
+
 extern NSString * const TextBundleErrorDomain;
 
 typedef NS_ENUM(NSInteger, TextBundleError)

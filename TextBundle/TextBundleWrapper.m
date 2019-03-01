@@ -11,8 +11,10 @@
 // Filenames constants
 NSString * const kTextBundleInfoFileName = @"info.json";
 NSString * const kTextBundleAssetsFileName = @"assets";
-NSString * const kTextBundleMarkdownUTI = @"net.daringfireball.markdown";
-NSString * const kTextBundleUTI = @"org.textbundle.package";
+
+// UTI constants
+NSString * const kUTTypeMarkdown = @"net.daringfireball.markdown";
+NSString * const kUTTypeTextBundle = @"org.textbundle.package";
 
 // Metadata constants
 NSString * const kTextBundleVersion = @"version";
@@ -27,7 +29,7 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 + (BOOL)isTextBundleType:(NSString *)typeName
 {
-    return UTTypeConformsTo((__bridge CFStringRef)typeName, (__bridge CFStringRef)kTextBundleUTI);
+    return UTTypeConformsTo((__bridge CFStringRef)typeName, (__bridge CFStringRef)kUTTypeTextBundle);
 }
 
 - (instancetype)init
@@ -37,7 +39,7 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
         // Setting some default values
         self.metadata = [NSMutableDictionary dictionary];
         self.version = @(2);
-        self.type = kTextBundleMarkdownUTI;
+        self.type = kUTTypeMarkdown;
         self.transient = @(NO);
         
         self.assetsFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
