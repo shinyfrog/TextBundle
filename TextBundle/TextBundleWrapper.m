@@ -12,6 +12,7 @@
 NSString * const kTextBundleInfoFileName = @"info.json";
 NSString * const kTextBundleAssetsFileName = @"assets";
 NSString * const kTextBundleMarkdownUTI = @"net.daringfireball.markdown";
+NSString * const kTextBundleUTI = @"org.textbundle.package";
 
 // Metadata constants
 NSString * const kTextBundleVersion = @"version";
@@ -23,6 +24,11 @@ NSString * const kTextBundleCreatorIdentifier = @"creatorIdentifier";
 NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 @implementation TextBundleWrapper
+
++ (BOOL)isTextBundleType:(NSString *)typeName
+{
+    return UTTypeConformsTo((__bridge CFStringRef)typeName, (__bridge CFStringRef)kTextBundleUTI);
+}
 
 - (instancetype)init
 {
@@ -54,10 +60,28 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     return self;
 }
 
+- (instancetype)initWithFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)error
+{
+    self = [self init];
+    if (self) {
+        
+        BOOL success = [self readFromFilewrapper:fileWrapper error:error];
+        if (!success) {
+            return nil;
+        }
+    }
+    return self;
+}
+
+
 #pragma mark - Writing
 
-- (BOOL)writeToURL:(NSURL *)url options:(NSFileWrapperWritingOptions)options originalContentsURL:(nullable NSURL *)originalContentsURL error:(NSError **)error
+- (NSFileWrapper *)fileWrapper
 {
+    if (!self.text) {
+        return nil;
+    }
+    
     NSFileWrapper *textBundleFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
     
     // Text
@@ -70,8 +94,13 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     if (self.assetsFileWrapper && self.assetsFileWrapper.fileWrappers.count) {
         [textBundleFileWrapper addFileWrapper:self.assetsFileWrapper];
     }
-    
-    return [textBundleFileWrapper writeToURL:url options:options originalContentsURL:originalContentsURL error:error];
+
+    return textBundleFileWrapper;
+}
+
+- (BOOL)writeToURL:(NSURL *)url options:(NSFileWrapperWritingOptions)options originalContentsURL:(nullable NSURL *)originalContentsURL error:(NSError **)error
+{
+    return [self.fileWrapper writeToURL:url options:options originalContentsURL:originalContentsURL error:error];
 }
 
 #pragma mark - Reading
@@ -84,6 +113,11 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
         return NO;
     }
     
+    return [self readFromFilewrapper:textBundleFileWrapper error:error];
+}
+
+- (BOOL)readFromFilewrapper:(NSFileWrapper *)textBundleFileWrapper error:(NSError **)error
+{
     // Info
     NSFileWrapper *infoFileWrapper = [[textBundleFileWrapper fileWrappers] objectForKey:kTextBundleInfoFileName];
     if (infoFileWrapper) {
@@ -112,8 +146,7 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     // Text
     NSFileWrapper *textFileWrapper = [[textBundleFileWrapper fileWrappers] objectForKey:[self textFileNameInFileWrapper:textBundleFileWrapper]];
     if (textFileWrapper) {
-        NSURL *textFileURL = [url URLByAppendingPathComponent:textFileWrapper.filename];
-        self.text = [[NSString alloc] initWithContentsOfURL:textFileURL usedEncoding:nil error:error];
+        self.text = [[NSString alloc] initWithData:textFileWrapper.regularFileContents encoding:NSUTF8StringEncoding];
     }
     else {
         if (error) {
@@ -153,6 +186,22 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     NSString *ext = (__bridge NSString *)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)type, kUTTagClassFilenameExtension);
     return [@"text" stringByAppendingPathExtension:ext];
 }
+
+
+#pragma mark - Assets
+
+- (NSFileWrapper *)fileWrapperForAssetFilename:(NSString *)filename
+{
+    __block NSFileWrapper *fileWrapper = nil;
+    [[self.assetsFileWrapper fileWrappers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSFileWrapper * _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj.filename isEqualToString:filename]) {
+            fileWrapper = obj;
+        }
+    }];
+    
+    return fileWrapper;
+}
+
 
 #pragma mark - Metadata
 

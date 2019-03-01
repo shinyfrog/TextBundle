@@ -25,6 +25,11 @@ typedef NS_ENUM(NSInteger, TextBundleError)
 @property (strong, nonnull) NSString *text;
 
 /**
+ File wrapper represeting the whole TextBundle.
+ */
+@property (readonly, nonatomic) NSFileWrapper *fileWrapper;
+
+/**
  File wrapper containing all asset files referenced from the plain text file.
  */
 @property (strong, nonnull) NSFileWrapper *assetsFileWrapper;
@@ -65,6 +70,15 @@ typedef NS_ENUM(NSInteger, TextBundleError)
 
 
 /**
+ Returns true if type name is conforming to the TextBundle type
+
+ @param typeName The string that identifies the file type.
+ @return True if type name is conforming to the textbundle type
+ */
++ (BOOL)isTextBundleType:(NSString *)typeName;
+
+
+/**
  Initialize a TextBundleWrapper instance from URL
 
  @param url URL of the file the TextBundleWrapper is to represent.
@@ -73,6 +87,16 @@ typedef NS_ENUM(NSInteger, TextBundleError)
  @return A new TextBundleWrapper for the content at url.
  */
 - (instancetype)initWithContentsOfURL:(NSURL *)url options:(NSFileWrapperReadingOptions)options error:(NSError **)error;
+
+
+/**
+ Initialize a TextBundleWrapper instance from a NSFileWrapper
+
+ @param fileWrapper The NSFileWrapper representing the TextBundle
+ @param error If an error occurs, upon return contains an NSError object that describes the problem. Pass NULL if you do not want error information.
+ @return A new TextBundleWrapper for the content of the fileWrapper.
+ */
+- (instancetype)initWithFileWrapper:(NSFileWrapper *)fileWrapper error:(NSError **)error;
 
 
 /**
@@ -87,6 +111,15 @@ typedef NS_ENUM(NSInteger, TextBundleError)
  @return YES when the write operation is successful. If not successful, returns NO after setting error to an NSError object that describes the reason why the TextBundleWrapper's contents could not be written.
  */
 - (BOOL)writeToURL:(NSURL *)url options:(NSFileWrapperWritingOptions)options originalContentsURL:(nullable NSURL *)originalContentsURL error:(NSError **)error;
+
+
+/**
+ Return the filewrapper represeting an asset or nil if there is no asset named with filename
+
+ @param filename A filename in the asset/ folder
+ @return A NSFilewrapper represeting filename or nil it the file doesn't exist
+ */
+- (NSFileWrapper *)fileWrapperForAssetFilename:(NSString *)filename;
 
 @end
 

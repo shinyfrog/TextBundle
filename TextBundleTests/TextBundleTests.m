@@ -57,8 +57,12 @@
     NSError *e = nil;
     TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
+    NSFileWrapper *assetWrapper = [tb fileWrapperForAssetFilename:@"oh no.jpg"];
+    
     XCTAssertNil(e);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+    XCTAssertNotNil(assetWrapper);
+    XCTAssertNotNil(assetWrapper.regularFileContents);
 }
 
 - (void)testLoadMissingInfo
