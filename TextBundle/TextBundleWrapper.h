@@ -124,6 +124,17 @@ typedef NS_ENUM(NSInteger, TextBundleError)
  */
 - (NSFileWrapper *)fileWrapperForAssetFilename:(NSString *)filename;
 
+
+
+/**
+ Add a NSFileWrapper to the TextBundleWrapper's assetFileWrapper.
+ If a file have the same name of an exiting file the name will be changed and if the file has the same content this method will do nothing.
+
+ @param assetFileWrapper A NSFileWrapper to add to the TextBundleWrapper's assets
+ @return The final filename of the added asset.
+ */
+- (NSString *)addAssetFileWrapper:(NSFileWrapper *)assetFileWrapper;
+
 @end
 
 NS_ASSUME_NONNULL_END

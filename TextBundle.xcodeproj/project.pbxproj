@@ -14,6 +14,8 @@
 		0C256C9422200B2800CB89C9 /* TextBundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C256C6C221FFA1600CB89C9 /* TextBundle.framework */; };
 		0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */; };
 		0C256CA022202ED000CB89C9 /* only text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9E22202ED000CB89C9 /* only text.textbundle */; };
+		0C5DE019222EABA600ADC323 /* sample asset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DE018222EABA600ADC323 /* sample asset.jpg */; };
+		0C5DE01B222EACC800ADC323 /* sample asset 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DE01A222EACC800ADC323 /* sample asset 2.jpg */; };
 		0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23601222195BD005A4E82 /* invalid no text.textbundle */; };
 		0CB23604222195BD005A4E82 /* invalid no info.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23602222195BD005A4E82 /* invalid no info.textbundle */; };
 		0CB2361222241595005A4E82 /* TextBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CB2361022241595005A4E82 /* TextBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -43,6 +45,8 @@
 		0C256C9322200B2800CB89C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "text plus attachments.textbundle"; sourceTree = "<group>"; };
 		0C256C9E22202ED000CB89C9 /* only text.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "only text.textbundle"; sourceTree = "<group>"; };
+		0C5DE018222EABA600ADC323 /* sample asset.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sample asset.jpg"; sourceTree = "<group>"; };
+		0C5DE01A222EACC800ADC323 /* sample asset 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sample asset 2.jpg"; sourceTree = "<group>"; };
 		0CB23601222195BD005A4E82 /* invalid no text.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "invalid no text.textbundle"; sourceTree = "<group>"; };
 		0CB23602222195BD005A4E82 /* invalid no info.textbundle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "invalid no info.textbundle"; sourceTree = "<group>"; };
 		0CB2360E22241595005A4E82 /* TextBundle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TextBundle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +135,8 @@
 		0C256C9A2220111E00CB89C9 /* Sample TextBundles */ = {
 			isa = PBXGroup;
 			children = (
+				0C5DE018222EABA600ADC323 /* sample asset.jpg */,
+				0C5DE01A222EACC800ADC323 /* sample asset 2.jpg */,
 				0C256C9E22202ED000CB89C9 /* only text.textbundle */,
 				0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */,
 				0CB23602222195BD005A4E82 /* invalid no info.textbundle */,
@@ -284,10 +290,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C5DE019222EABA600ADC323 /* sample asset.jpg in Resources */,
 				0C256CA022202ED000CB89C9 /* only text.textbundle in Resources */,
 				0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */,
 				0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */,
 				0CB23604222195BD005A4E82 /* invalid no info.textbundle in Resources */,
+				0C5DE01B222EACC800ADC323 /* sample asset 2.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

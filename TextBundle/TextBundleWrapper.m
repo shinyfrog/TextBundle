@@ -196,12 +196,46 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 {
     __block NSFileWrapper *fileWrapper = nil;
     [[self.assetsFileWrapper fileWrappers] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSFileWrapper * _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([obj.filename isEqualToString:filename]) {
+        if ([obj.filename isEqualToString:filename] || [obj.preferredFilename isEqualToString:filename]) {
             fileWrapper = obj;
         }
     }];
     
     return fileWrapper;
+}
+
+- (NSString *)addAssetFileWrapper:(NSFileWrapper *)assetFileWrapper
+{
+    NSString *originalFilename = assetFileWrapper.filename ?: assetFileWrapper.preferredFilename;
+    NSString *filename = originalFilename;
+    NSUInteger filenameCount = 1;
+    BOOL shouldAddFileWrapper = YES;
+
+    NSArray *currentFilenames = [self.assetsFileWrapper.fileWrappers allKeys];
+    while ([currentFilenames containsObject:filename]) {
+        NSFileWrapper *existingFileWrapper = [self.assetsFileWrapper fileWrappers][filename];
+        
+        // Same filename and same data, we can skip adding this file
+        if ([assetFileWrapper.regularFileContents isEqualToData:existingFileWrapper.regularFileContents]) {
+            shouldAddFileWrapper = NO;
+            break;
+        }
+        
+        // Same filename, different data, changing the name
+        else {
+            filenameCount++;
+            filename = [self filenameWithIncreasedNumberCountForFilename:originalFilename currentCount:filenameCount];
+            assetFileWrapper.filename = filename;
+            assetFileWrapper.preferredFilename = filename;
+        }
+
+    }
+
+    if (shouldAddFileWrapper) {
+        filename = [self.assetsFileWrapper addFileWrapper:assetFileWrapper];
+    }
+    
+    return filename;
 }
 
 
@@ -223,5 +257,22 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     
     return jsonData;
 }
+
+#pragma mark - String Utils
+
+- (NSString *)filenameWithIncreasedNumberCountForFilename:(NSString *)filename currentCount:(NSInteger)currentCount
+{
+    NSString* pathNoExt = [filename stringByDeletingPathExtension];
+    NSString* extension = [filename pathExtension];
+    
+    NSString *newFilename = [NSString stringWithFormat:@"%@ %ld", pathNoExt, (long)currentCount];
+    if (extension && ![extension isEqualToString:@""])
+    {
+        newFilename = [newFilename stringByAppendingPathExtension:extension];
+    }
+    
+    return newFilename;
+}
+
 
 @end

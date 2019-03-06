@@ -133,4 +133,37 @@
     XCTAssertTrue(success);    
 }
 
+#pragma mark - Assets
+
+- (void)testAddAssets
+{
+    NSURL *fileURL = [self textBundleURLForFilename:@"only text"];
+    NSError *e = nil;
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+
+    NSURL *assetURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"sample asset" withExtension:@"jpg"];
+    NSFileWrapper *assetFileWrapper = [[NSFileWrapper alloc] initWithURL:assetURL options:0 error:nil];
+    
+    // Adding the first time should add the file to the bundle
+    NSString *filename = [tb addAssetFileWrapper:assetFileWrapper];
+    XCTAssertEqualObjects(filename, @"sample asset.jpg");
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+
+    // Adding the same filewrapper again should do nothing
+    filename = [tb addAssetFileWrapper:assetFileWrapper];
+    XCTAssertEqualObjects(filename, @"sample asset.jpg");
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+
+    // Adding a different file with the same name should update the new name
+    NSURL *assetURL2 = [[NSBundle bundleForClass:[self class]] URLForResource:@"sample asset 2" withExtension:@"jpg"];
+    NSFileWrapper *assetFileWrapper2 = [[NSFileWrapper alloc] initWithURL:assetURL2 options:0 error:nil];
+    
+    assetFileWrapper2.filename = @"sample asset.jpg";
+    assetFileWrapper2.preferredFilename = @"sample asset.jpg";
+    filename = [tb addAssetFileWrapper:assetFileWrapper2];
+    XCTAssertEqualObjects(filename, @"sample asset 2.jpg");
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 2);
+}
+
+
 @end
