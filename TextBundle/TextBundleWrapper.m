@@ -109,9 +109,11 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 - (BOOL)readFromURL:(NSURL *)url options:(NSFileWrapperReadingOptions)options error:(NSError **)error
 {
-    NSFileWrapper *textBundleFileWrapper = [[NSFileWrapper alloc] initWithURL:url options:options error:error];
+    NSError *readError = nil;
+    NSFileWrapper *textBundleFileWrapper = [[NSFileWrapper alloc] initWithURL:url options:options error:&readError];
     
-    if (error &&  *error != nil) {
+    if (readError) {
+        if (error) { *error = readError; }
         return NO;
     }
     
@@ -124,7 +126,13 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     NSFileWrapper *infoFileWrapper = [[textBundleFileWrapper fileWrappers] objectForKey:kTextBundleInfoFileName];
     if (infoFileWrapper) {
         NSData *fileData = [infoFileWrapper regularFileContents];
-        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:0 error:error];
+        NSError *jsonReadError = nil;
+        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:0 error:&jsonReadError];
+        
+        if (jsonReadError) {
+            if (error) { *error = jsonReadError; }
+            return NO;
+        }
         
         self.metadata          = [jsonObject mutableCopy];
         self.version           = self.metadata[kTextBundleVersion];
