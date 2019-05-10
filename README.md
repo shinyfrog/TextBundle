@@ -8,9 +8,9 @@
 	* [Carthage](#carthage)
 	* [Framework](#framework)
 * [**Usage**](#usage)
-	* [TextBundle text content](#reading-the-textbundle-text-content)
-	* [TextBundle assets](#reading-the-textbundle-assets)
-	* [TextBundle Meta data](#reading-the-textbundle-meta-data)
+	* [TextBundle Text](#reading-the-textbundle-text)
+	* [TextBundle Assets](#reading-the-textbundle-assets)
+	* [TextBundle Meta Data](#reading-the-textbundle-meta-data)
 * [**License**](#license)
 * [**Contacts**](#contacts)
 ## Installation
@@ -30,7 +30,7 @@ Reference the `TextBundle.xcodeproj` in your project and drag the `TextBundle.fr
 
 If you're using TextBundle as a framework, you can `@import CocoaLumberjack` if you’re using swift or `#import <CocoaLumberjack/CocoaLumberjack.h>` for Obj-C.
 
-### Reading the TextBundle text content
+### Reading the TextBundle Text
 
 ``` objective-c
 NSError *e = nil;
@@ -45,7 +45,7 @@ NSString *text = tb.text;
 NSString *type = tb.type;
 ```
 
-### Reading the TextBundle assets
+### Reading the TextBundle Assets
 
 ``` objective-c
 // Iterating the asset files
@@ -70,7 +70,7 @@ NSDictionary *metadata = tb.metadata;
 ## Author
 [Matteo Rattotti](https://github.com/matteorattotti)
 
-## Licence
+## License
 `TextBundleWrapper` is available under the MIT license. See the LICENSE file for details.
 
 ## Contacts
