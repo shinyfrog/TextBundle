@@ -24,7 +24,7 @@ To install with Carthage, add the following to your Cartfile:
 `github "CocoaLumberjack/CocoaLumberjack"`
 
 ### Framework
-Reference the `TextBundle.xcodeproj` in your project and drag the `TextBundle.framework` inside the `Embedded Binaries`.
+Reference the `TextBundle.xcodeproj` in your project and drag the `TextBundle.framework` inside the `Embedded Binaries` in the `General` tab of the target setting.
 
 ## Usage
 
