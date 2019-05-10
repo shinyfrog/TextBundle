@@ -1,17 +1,26 @@
 # TextBundle
-Library for reading/writing [TextBundle](http://textbundle.org) files
+**TextBundleWrapper** is a fast and simple Library for reading/writing [TextBundle](http://textbundle.org) files.
 
-Installation
+## Installation
+`TextBundleWrapper` is a single class with no dependencies, you can install it from source code, using [Carthage](https://github.com/Carthage/Carthage) or embedding the `TextBundle.framework` in your project.
 
-`TextBundleWrapper` is a single class with no dependencies, just download and drag the TextBundleWrapper.{h,m} files in your 
-Xcode project or reference the `TextBundle.xcodeproj` in your project and drag the `TextBundle.framework` inside the 
-`Embedded Binaries`.
+### Install from sources
+Just download and drag the TextBundleWrapper.{h,m} files in your Xcode project
 
-## Reading a TextBundle file
+### Carthage
+To install with Carthage, add the following to your Cartfile:
+`github "CocoaLumberjack/CocoaLumberjack"`
+
+### Framework
+Reference the `TextBundle.xcodeproj` in your project and drag the `TextBundle.framework` inside the `Embedded Binaries`.
+
+## Usage
+
+If you're using TextBundle as a framework, you can `@import CocoaLumberjack` if you’re using swift or `#import <CocoaLumberjack/CocoaLumberjack.h>` for Obj-C.
+
+### Reading the TextBundle text content
 
 ``` objective-c
-#import <TextBundle/TextBundle.h>
-
 NSError *e = nil;
 TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL 
                                                                options:NSFileWrapperReadingImmediate 
@@ -20,6 +29,13 @@ TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL
 // Reading the plain text content
 NSString *text = tb.text;
 
+// The UTI of the text (Markdown, HTML, etc...)
+NSString *type = tb.type;
+```
+
+### Reading the TextBundle assets
+
+``` objective-c
 // Iterating the asset files
 [tb.assetsFileWrapper.fileWrappers enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSFileWrapper *fw, BOOL *stop) 
 {
@@ -29,11 +45,22 @@ NSString *text = tb.text;
     // Writing the file somewhere
     [fw writeToURL:URL options:0 originalContentsURL:nil error:nil];
 }];
-
 ```
 
-
-## Properties and Meta data
-
-TextBundleWrapper conforms to the [TextBundle Specification](http://textbundle.org/spec/), please use the specs as 
+### Reading the TextBundle Meta data
+`TextBundleWrapper` conforms to the [TextBundle Specification](http://textbundle.org/spec/), please use the specs as 
 reference for properties and their values.
+
+``` objective-c
+NSDictionary *metadata = tb.metadata;
+```
+
+## Author
+[Matteo Rattotti](https://github.com/matteorattotti)
+
+## Licence
+`TextBundleWrapper` is available under the MIT license. See the LICENSE file for details.
+
+## Contacts
+If you want to ask a technical question, feel free to raise an [issue](https://github.com/shinyfrog/TextBundle/issues) or write to hello@shinyfrog.net.
+
