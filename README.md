@@ -1,6 +1,18 @@
 # TextBundle
-**TextBundleWrapper** is a fast and simple Library for reading/writing [TextBundle](http://textbundle.org) files.
+`TextBundleWrapper` is a fast and simple Library for reading/writing [TextBundle](http://textbundle.org) files.
 
+## Table of Contents
+
+* [**Installation**](#installation)
+	* [Install from sources](#install-from-sources)
+	* [Carthage](#carthage)
+	* [Framework](#framework)
+* [**Usage**](#usage)
+	* [TextBundle text content](#reading-the-textbundle-text-content)
+	* [TextBundle assets](#reading-the-textbundle-assets)
+	* [TextBundle Meta data](#reading-the-textbundle-meta-data)
+* [**License**](#license)
+* [**Contacts**](#contacts)
 ## Installation
 `TextBundleWrapper` is a single class with no dependencies, you can install it from source code, using [Carthage](https://github.com/Carthage/Carthage) or embedding the `TextBundle.framework` in your project.
 
@@ -47,7 +59,7 @@ NSString *type = tb.type;
 }];
 ```
 
-### Reading the TextBundle Meta data
+### Reading the TextBundle Meta Data
 `TextBundleWrapper` conforms to the [TextBundle Specification](http://textbundle.org/spec/), please use the specs as 
 reference for properties and their values.
 
