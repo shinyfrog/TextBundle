@@ -89,6 +89,19 @@
     XCTAssertEqual(e.code, TextBundleErrorInvalidFormat);
 }
 
+
+- (void)testLoadInvalidTextBundle
+{
+    NSURL *fileURL = [self textBundleURLForFilename:@"invalid zipped textbundle"];
+    
+    NSError *e = nil;
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    
+    XCTAssertNil(tb);
+    XCTAssertEqualObjects(e.domain, TextBundleErrorDomain);
+    XCTAssertEqual(e.code, TextBundleErrorInvalidFormat);
+}
+
 #pragma mark - Writing
 
 - (void)testWriteExitingTextBundleToAnotherURL

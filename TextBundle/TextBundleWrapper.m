@@ -117,6 +117,13 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
         return NO;
     }
     
+    if (!textBundleFileWrapper.isDirectory) {
+        if (error) {
+            *error = [NSError errorWithDomain:TextBundleErrorDomain code:TextBundleErrorInvalidFormat userInfo:nil];
+        }
+        return NO;
+    }
+    
     return [self readFromFilewrapper:textBundleFileWrapper error:error];
 }
 
