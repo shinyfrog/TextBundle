@@ -21,14 +21,14 @@ Just download and drag the TextBundleWrapper.{h,m} files in your Xcode project
 
 ### Carthage
 To install with Carthage, add the following to your Cartfile:
-`github "CocoaLumberjack/CocoaLumberjack"`
+`github "shinyfrog/TextBundle"`
 
 ### Framework
 Reference the `TextBundle.xcodeproj` in your project and drag the `TextBundle.framework` inside the `Embedded Binaries` in the `General` tab of the target setting.
 
 ## Usage
 
-If you're using TextBundle as a framework, you can `@import CocoaLumberjack` if you’re using swift or `#import <CocoaLumberjack/CocoaLumberjack.h>` for Obj-C.
+If you're using TextBundle as a framework, you can `@import TextBundle` if you’re using swift or `#import <TextBundle/TextBundle.h>` for Obj-C.
 
 ### Reading the TextBundle Text
 
