@@ -58,7 +58,8 @@ typedef NS_ENUM(NSInteger, TextBundleError)
 @property (strong) NSString *creatorIdentifier;
 
 /**
- Dictionary of application-specific information. Application-specific information must be stored inside a nested dictionary.
+ Dictionary of application-specific information. Application-specific information must be stored inside a nested dictionary
+ Use the provided utility methods (-applicationSpecificMetadata and -addApplicationSpecificMetadata:forKey:) to read write this.
  
  The dictionary is referenced by a key using the application bundle identifier (e.g. com.example.myapp).
  This dictionary should contain at least a version number to ensure backwards compatibility.
@@ -134,6 +135,17 @@ typedef NS_ENUM(NSInteger, TextBundleError)
  @return The final filename of the added asset.
  */
 - (NSString *)addAssetFileWrapper:(NSFileWrapper *)assetFileWrapper;
+
+
+#pragma mark - Metadata
+
+- (NSMutableDictionary *)applicationSpecificMetadata;
+
+- (NSMutableDictionary *)applicationSpecificMetadataForIdentifier:(NSString *)identifier;
+
+- (void)addApplicationSpecificMetadata:(id)metadata forKey:(NSString *)key;
+
+- (void)addApplicationSpecificMetadata:(id)metadata forKey:(NSString *)key withIdentifier:(NSString *)identifier;
 
 @end
 

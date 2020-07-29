@@ -41,6 +41,7 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
         self.version = @(2);
         self.type = kUTTypeMarkdown;
         self.transient = @(NO);
+        self.creatorIdentifier = [[NSBundle mainBundle] bundleIdentifier];
         
         self.assetsFileWrapper = [[NSFileWrapper alloc] initDirectoryWithFileWrappers:@{}];
         self.assetsFileWrapper.preferredFilename = kTextBundleAssetsFileName;
@@ -248,6 +249,32 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 
 #pragma mark - Metadata
+
+- (NSMutableDictionary *)applicationSpecificMetadata
+{
+    return [self applicationSpecificMetadataForIdentifier:NSBundle.mainBundle.bundleIdentifier];
+}
+
+- (NSMutableDictionary *)applicationSpecificMetadataForIdentifier:(NSString *)identifier
+{
+    return [self.metadata[identifier] mutableCopy];
+}
+
+- (void)addApplicationSpecificMetadata:(id)metadata forKey:(NSString *)key
+{
+    [self addApplicationSpecificMetadata:metadata forKey:key withIdentifier:NSBundle.mainBundle.bundleIdentifier];
+}
+
+- (void)addApplicationSpecificMetadata:(id)metadata forKey:(NSString *)key withIdentifier:(NSString *)identifier
+{
+    NSMutableDictionary *applicationSpecificMetadata = [self applicationSpecificMetadataForIdentifier:identifier];
+    if (!applicationSpecificMetadata) {
+        applicationSpecificMetadata = [NSMutableDictionary dictionary];
+    }
+    
+    applicationSpecificMetadata[key] = metadata;
+    self.metadata[identifier] = applicationSpecificMetadata;
+}
 
 - (NSData *)jsonDataForMetadata:(NSDictionary *)metadata
 {
