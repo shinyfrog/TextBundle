@@ -128,14 +128,14 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
     if (infoFileWrapper) {
         NSData *fileData = [infoFileWrapper regularFileContents];
         NSError *jsonReadError = nil;
-        NSDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:0 error:&jsonReadError];
+        NSMutableDictionary *jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:NSJSONReadingMutableContainers|NSJSONReadingMutableLeaves error:&jsonReadError];
         
         if (jsonReadError) {
             if (error) { *error = jsonReadError; }
             return NO;
         }
         
-        self.metadata          = [jsonObject mutableCopy];
+        self.metadata          = jsonObject;
         self.version           = self.metadata[kTextBundleVersion];
         self.type              = self.metadata[kTextBundleType];
         self.transient         = self.metadata[kTextBundleTransient];
