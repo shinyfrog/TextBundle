@@ -27,25 +27,30 @@
     return [[NSBundle bundleForClass:[self class]] URLForResource:filename withExtension:@"textbundle"];
 }
 
+- (NSURL *)textPackURLForFilename:(NSString *)filename
+{
+    return [[NSBundle bundleForClass:[self class]] URLForResource:filename withExtension:@"textpack"];
+}
+
+
 #pragma mark - Reading
 
 - (void)testLoadTextOnly
 {
     NSURL *fileURL = [self textBundleURLForFilename:@"only text"];
     
-    
-    
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    
     
     XCTAssertNil(e);
     
     XCTAssertEqualObjects(tb.text, @"Text");
-    XCTAssertEqualObjects(tb.metadata, @{});
-    XCTAssertEqualObjects(tb.version, @(2));
+    XCTAssertEqualObjects([tb applicationSpecificMetadataFor:nil], nil);
     XCTAssertEqualObjects(tb.type, @"net.daringfireball.markdown");
-    XCTAssertEqualObjects(tb.transient, @(0));
     XCTAssertEqualObjects(tb.creatorIdentifier, @"net.shinyfrog.TextBundleTest");
+    XCTAssertEqual(tb.version, 2);
+    XCTAssertEqual(tb.transient, false);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 0);
 }
 
@@ -55,9 +60,9 @@
     NSURL *fileURL = [self textBundleURLForFilename:@"text plus attachments"];
     
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
-    NSFileWrapper *assetWrapper = [tb fileWrapperForAssetFilename:@"oh no.jpg"];
+    NSFileWrapper *assetWrapper = [tb fileWrapperFor:@"oh no.jpg"];
     
     XCTAssertNil(e);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
@@ -70,11 +75,10 @@
     NSURL *fileURL = [self textBundleURLForFilename:@"invalid no info"];
     
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(tb);
-    XCTAssertEqualObjects(e.domain, TextBundleErrorDomain);
-    XCTAssertEqual(e.code, TextBundleErrorInvalidFormat);
+    XCTAssertEqualObjects(e.domain, @"TextBundle.TextBundleError");
 }
 
 - (void)testLoadMissingText
@@ -82,11 +86,10 @@
     NSURL *fileURL = [self textBundleURLForFilename:@"invalid no text"];
     
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(tb);
-    XCTAssertEqualObjects(e.domain, TextBundleErrorDomain);
-    XCTAssertEqual(e.code, TextBundleErrorInvalidFormat);
+    XCTAssertEqualObjects(e.domain, @"TextBundle.TextBundleError");
 }
 
 #pragma mark - Writing
@@ -95,26 +98,26 @@
 {
     NSURL *fileURL = [self textBundleURLForFilename:@"text plus attachments"];
     NSURL *targetURL = [[NSURL fileURLWithPath:NSTemporaryDirectory()] URLByAppendingPathComponent:@"test.textbundle"];
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:nil];
-
+    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:nil];
+    
     NSError *e = nil;
-    BOOL success = [tb writeToURL:targetURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&e];
+    BOOL success = [tb writeTo:targetURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&e];
     
     XCTAssertTrue(success);
     XCTAssertNil(e);
     
     e = nil;
 
-    TextBundleWrapper *newTB = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    TextBundleWrapper *newTB = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
     XCTAssertNil(e);
 
     XCTAssertEqualObjects(newTB.text, @"Text");
-    XCTAssertEqualObjects(newTB.metadata, @{});
-    XCTAssertEqualObjects(newTB.version, @(2));
+    XCTAssertEqualObjects([tb applicationSpecificMetadataFor:nil], nil);
     XCTAssertEqualObjects(newTB.type, @"net.daringfireball.markdown");
-    XCTAssertEqualObjects(newTB.transient, @(0));
     XCTAssertEqualObjects(newTB.creatorIdentifier, @"net.shinyfrog.TextBundleTest");
+    XCTAssertEqual(newTB.version, 2);
+    XCTAssertEqual(newTB.transient, false);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
 }
 
@@ -124,10 +127,17 @@
     TextBundleWrapper *tb = [TextBundleWrapper new];
     tb.text = @"Some Text";
     
-    NSURL *targetURL = [[NSURL fileURLWithPath:NSTemporaryDirectory()] URLByAppendingPathComponent:@"test.textbundle"];
+    XCTAssertEqualObjects(tb.text, @"Some Text");
+    XCTAssertEqualObjects([tb applicationSpecificMetadataFor:nil], nil);
+    XCTAssertEqualObjects(tb.type, @"net.daringfireball.markdown");
+    XCTAssertEqual(tb.version, 2);
+    XCTAssertEqual(tb.transient, false);
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 0);
+    
+    NSURL *targetURL = [[NSURL fileURLWithPath:NSTemporaryDirectory()] URLByAppendingPathComponent:@"test2.textbundle"];
     
     NSError *e = nil;
-    BOOL success = [tb writeToURL:targetURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&e];
+    BOOL success = [tb writeTo:targetURL options:NSFileWrapperWritingAtomic originalContentsURL:nil error:&e];
     
     XCTAssertNil(e);
     XCTAssertTrue(success);    
@@ -139,7 +149,7 @@
 {
     NSURL *fileURL = [self textBundleURLForFilename:@"only text"];
     NSError *e = nil;
-    TextBundleWrapper *tb = [[TextBundleWrapper new] initWithContentsOfURL:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
 
     NSURL *assetURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"sample asset" withExtension:@"jpg"];
     NSFileWrapper *assetFileWrapper = [[NSFileWrapper alloc] initWithURL:assetURL options:0 error:nil];
@@ -165,5 +175,85 @@
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 2);
 }
 
+
+#pragma mark - Metadata
+
+- (void)testMetadata
+{
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] init];
+    tb.text = @"Some Text";
+    
+    // Adding some metadata
+    [tb addApplicationSpecificMetadata:@"data" for:@"key" identifier:@"test"];
+
+    // trying to re-read it
+    NSDictionary *dict = [tb applicationSpecificMetadataFor:@"test"];
+    
+    XCTAssertEqualObjects(dict, @{@"key":@"data"});
+    
+    // Try to overwrite it
+    [tb addApplicationSpecificMetadata:@"data2" for:@"key" identifier:@"test"];
+
+    // Reading it again
+    dict = [tb applicationSpecificMetadataFor:@"test"];
+    
+    XCTAssertEqualObjects(dict, @{@"key":@"data2"});
+}
+
+
+#pragma mark - Compressed
+
+- (void)testReadTextPack
+{
+    NSURL *fileURL = [self textPackURLForFilename:@"textpack sample"];
+    
+    NSError *e = nil;
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithTextPackURL:fileURL error:&e];
+    
+    XCTAssertNil(e);
+    XCTAssertNotNil(tb);
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+}
+
+- (void)testCreateAndWriteTextPack
+{
+    TextBundleWrapper *tb = [TextBundleWrapper new];
+    tb.text = @"Some Text";
+        
+    NSURL *targetURL = [[NSFileManager.defaultManager URLForDirectory:NSItemReplacementDirectory
+                                                             inDomain:NSUserDomainMask
+                                                    appropriateForURL:[NSURL fileURLWithPath:@"test.textpack"]
+                                                               create:YES
+                                                                error:nil] URLByAppendingPathComponent:@"test.textpack"];
+    
+    NSError *e = nil;
+    BOOL success = [tb writeTextPackTo:targetURL error:&e];
+    
+    XCTAssertNil(e);
+    XCTAssertTrue(success);
+}
+
+- (void)testCreateAndWriteTextPackFromMemory
+{
+    TextBundleWrapper *tb = [TextBundleWrapper new];
+    tb.text = @"Some Text";
+            
+    NSError *e = nil;
+    NSFileWrapper *fw = [tb compressedFileWrapperWith:@"test.textpack" error:&e];
+    
+    XCTAssertNil(e);
+    XCTAssertNotNil(fw);
+
+    NSURL *targetURL = [[NSFileManager.defaultManager URLForDirectory:NSItemReplacementDirectory
+                                                             inDomain:NSUserDomainMask
+                                                    appropriateForURL:[NSURL fileURLWithPath:@"test.textpack"]
+                                                               create:YES
+                                                                error:nil] URLByAppendingPathComponent:@"test.textpack"];
+    
+    BOOL success = [fw writeToURL:targetURL options:0 originalContentsURL:nil error:&e];
+    
+    XCTAssertNil(e);
+    XCTAssertTrue(success);
+}
 
 @end

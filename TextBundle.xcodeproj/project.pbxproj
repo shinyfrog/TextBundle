@@ -3,13 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0C256C7D221FFA1600CB89C9 /* TextBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C256C6F221FFA1600CB89C9 /* TextBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0C256C89221FFB6A00CB89C9 /* TextBundleWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C256C87221FFB6A00CB89C9 /* TextBundleWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0C256C8A221FFB6A00CB89C9 /* TextBundleWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C256C88221FFB6A00CB89C9 /* TextBundleWrapper.m */; };
 		0C256C9222200B2800CB89C9 /* TextBundleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C256C9122200B2800CB89C9 /* TextBundleTests.m */; };
 		0C256C9422200B2800CB89C9 /* TextBundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C256C6C221FFA1600CB89C9 /* TextBundle.framework */; };
 		0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */; };
@@ -19,9 +17,14 @@
 		0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23601222195BD005A4E82 /* invalid no text.textbundle */; };
 		0CB23604222195BD005A4E82 /* invalid no info.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23602222195BD005A4E82 /* invalid no info.textbundle */; };
 		0CB2361222241595005A4E82 /* TextBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CB2361022241595005A4E82 /* TextBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0CB23616222415CA005A4E82 /* TextBundleWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C256C88221FFB6A00CB89C9 /* TextBundleWrapper.m */; };
-		0CB23617222415CC005A4E82 /* TextBundleWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C256C87221FFB6A00CB89C9 /* TextBundleWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0CB2361B2224162D005A4E82 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB2361A2224162D005A4E82 /* CoreServices.framework */; };
+		0CCA27B9254175D70061DC55 /* TextBundleWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA27B8254175D70061DC55 /* TextBundleWrapper.swift */; };
+		0CCA27BA254175D70061DC55 /* TextBundleWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA27B8254175D70061DC55 /* TextBundleWrapper.swift */; };
+		0CCA281E254331810061DC55 /* textpack sample.textpack in Resources */ = {isa = PBXBuildFile; fileRef = 0CCA281D254331800061DC55 /* textpack sample.textpack */; };
+		0CCA2887254868A70061DC55 /* TextBundleWrapper+TextPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA2886254868A70061DC55 /* TextBundleWrapper+TextPack.swift */; };
+		0CCA2888254868A70061DC55 /* TextBundleWrapper+TextPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA2886254868A70061DC55 /* TextBundleWrapper+TextPack.swift */; };
+		0CCA288E25497D6A0061DC55 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 0CCA288D25497D6A0061DC55 /* Zip */; };
+		0CCA289625498B070061DC55 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 0CCA289525498B070061DC55 /* Zip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +41,6 @@
 		0C256C6C221FFA1600CB89C9 /* TextBundle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TextBundle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C256C6F221FFA1600CB89C9 /* TextBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextBundle.h; sourceTree = "<group>"; };
 		0C256C70221FFA1600CB89C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0C256C87221FFB6A00CB89C9 /* TextBundleWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextBundleWrapper.h; sourceTree = "<group>"; };
-		0C256C88221FFB6A00CB89C9 /* TextBundleWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextBundleWrapper.m; sourceTree = "<group>"; };
 		0C256C8F22200B2800CB89C9 /* TextBundleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextBundleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C256C9122200B2800CB89C9 /* TextBundleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextBundleTests.m; sourceTree = "<group>"; };
 		0C256C9322200B2800CB89C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,6 +54,9 @@
 		0CB2361022241595005A4E82 /* TextBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextBundle.h; sourceTree = "<group>"; };
 		0CB2361122241595005A4E82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CB2361A2224162D005A4E82 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		0CCA27B8254175D70061DC55 /* TextBundleWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBundleWrapper.swift; sourceTree = "<group>"; };
+		0CCA281D254331800061DC55 /* textpack sample.textpack */ = {isa = PBXFileReference; lastKnownFileType = file; path = "textpack sample.textpack"; sourceTree = "<group>"; };
+		0CCA2886254868A70061DC55 /* TextBundleWrapper+TextPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextBundleWrapper+TextPack.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CCA288E25497D6A0061DC55 /* Zip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CCA289625498B070061DC55 /* Zip in Frameworks */,
 				0CB2361B2224162D005A4E82 /* CoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,8 +122,8 @@
 		0C256C84221FFADB00CB89C9 /* TextBundle */ = {
 			isa = PBXGroup;
 			children = (
-				0C256C87221FFB6A00CB89C9 /* TextBundleWrapper.h */,
-				0C256C88221FFB6A00CB89C9 /* TextBundleWrapper.m */,
+				0CCA27B8254175D70061DC55 /* TextBundleWrapper.swift */,
+				0CCA2886254868A70061DC55 /* TextBundleWrapper+TextPack.swift */,
 			);
 			path = TextBundle;
 			sourceTree = "<group>";
@@ -137,6 +143,7 @@
 			children = (
 				0C5DE018222EABA600ADC323 /* sample asset.jpg */,
 				0C5DE01A222EACC800ADC323 /* sample asset 2.jpg */,
+				0CCA281D254331800061DC55 /* textpack sample.textpack */,
 				0C256C9E22202ED000CB89C9 /* only text.textbundle */,
 				0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */,
 				0CB23602222195BD005A4E82 /* invalid no info.textbundle */,
@@ -170,7 +177,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C256C7D221FFA1600CB89C9 /* TextBundle.h in Headers */,
-				0C256C89221FFB6A00CB89C9 /* TextBundleWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CB2361222241595005A4E82 /* TextBundle.h in Headers */,
-				0CB23617222415CC005A4E82 /* TextBundleWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +205,9 @@
 			dependencies = (
 			);
 			name = "TextBundle-Mac";
+			packageProductDependencies = (
+				0CCA288D25497D6A0061DC55 /* Zip */,
+			);
 			productName = "TextBundle-Mac";
 			productReference = 0C256C6C221FFA1600CB89C9 /* TextBundle.framework */;
 			productType = "com.apple.product-type.framework";
@@ -236,6 +244,9 @@
 			dependencies = (
 			);
 			name = "TextBundle-iOS";
+			packageProductDependencies = (
+				0CCA289525498B070061DC55 /* Zip */,
+			);
 			productName = "TextBundle-iOS";
 			productReference = 0CB2360E22241595005A4E82 /* TextBundle.framework */;
 			productType = "com.apple.product-type.framework";
@@ -250,12 +261,14 @@
 				TargetAttributes = {
 					0C256C6B221FFA1600CB89C9 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1210;
 					};
 					0C256C8E22200B2800CB89C9 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 					0CB2360D22241595005A4E82 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1210;
 					};
 				};
 			};
@@ -268,6 +281,9 @@
 				Base,
 			);
 			mainGroup = 0C256C60221FF9CC00CB89C9;
+			packageReferences = (
+				0CCA288C25497D6A0061DC55 /* XCRemoteSwiftPackageReference "Zip" */,
+			);
 			productRefGroup = 0C256C6D221FFA1600CB89C9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -292,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C5DE019222EABA600ADC323 /* sample asset.jpg in Resources */,
+				0CCA281E254331810061DC55 /* textpack sample.textpack in Resources */,
 				0C256CA022202ED000CB89C9 /* only text.textbundle in Resources */,
 				0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */,
 				0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */,
@@ -314,7 +331,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C256C8A221FFB6A00CB89C9 /* TextBundleWrapper.m in Sources */,
+				0CCA2887254868A70061DC55 /* TextBundleWrapper+TextPack.swift in Sources */,
+				0CCA27B9254175D70061DC55 /* TextBundleWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +348,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CB23616222415CA005A4E82 /* TextBundleWrapper.m in Sources */,
+				0CCA2888254868A70061DC55 /* TextBundleWrapper+TextPack.swift in Sources */,
+				0CCA27BA254175D70061DC55 /* TextBundleWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +503,8 @@
 				PRODUCT_NAME = TextBundle;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -557,6 +578,7 @@
 				PRODUCT_NAME = TextBundle;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -565,6 +587,7 @@
 		0C256C9822200B2800CB89C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -635,6 +658,7 @@
 		0C256C9922200B2800CB89C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -768,6 +792,8 @@
 				PRODUCT_NAME = TextBundle;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -840,6 +866,7 @@
 				PRODUCT_NAME = TextBundle;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -887,6 +914,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0CCA288C25497D6A0061DC55 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0CCA288D25497D6A0061DC55 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0CCA288C25497D6A0061DC55 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+		0CCA289525498B070061DC55 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0CCA288C25497D6A0061DC55 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0C256C61221FF9CC00CB89C9 /* Project object */;
 }

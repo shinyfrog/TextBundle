@@ -13,6 +13,4 @@ FOUNDATION_EXPORT double TextBundle_iOSVersionNumber;
 //! Project version string for TextBundle_iOS.
 FOUNDATION_EXPORT const unsigned char TextBundle_iOSVersionString[];
 
-#import <TextBundle/TextBundleWrapper.h>
-
 

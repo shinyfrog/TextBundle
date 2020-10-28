@@ -13,5 +13,3 @@ FOUNDATION_EXPORT double TextBundle_MacVersionNumber;
 //! Project version string for TextBundle_Mac.
 FOUNDATION_EXPORT const unsigned char TextBundle_MacVersionString[];
 
-#import <TextBundle/TextBundleWrapper.h>
-
