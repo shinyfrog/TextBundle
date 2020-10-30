@@ -12,9 +12,7 @@ extension TextBundleWrapper {
     @objc public convenience init(textPackURL: URL) throws {
         let temporaryDirectoryURL = try TextBundleWrapper.temporaryDirectoryURL()
         
-        if !Zip.isValidFileExtension("textpack") {
-            Zip.addCustomFileExtension("textpack")
-        }
+        TextBundleWrapper.addValidZipFileExtension("textpack")
         
         try Zip.unzipFile(textPackURL, destination: temporaryDirectoryURL, overwrite: true, password: nil)
         
@@ -23,6 +21,12 @@ extension TextBundleWrapper {
         }
         else {
             throw TextBundleError.invalidBundleError("Invalid Textpack: can't unzip it")
+        }
+    }
+    
+    @objc public class func addValidZipFileExtension(_ fileExtension: String) {
+        if !Zip.isValidFileExtension(fileExtension) {
+            Zip.addCustomFileExtension(fileExtension)
         }
     }
     
