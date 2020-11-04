@@ -233,27 +233,4 @@
     XCTAssertTrue(success);
 }
 
-- (void)testCreateAndWriteTextPackFromMemory
-{
-    TextBundleWrapper *tb = [TextBundleWrapper new];
-    tb.text = @"Some Text";
-            
-    NSError *e = nil;
-    NSFileWrapper *fw = [tb compressedFileWrapperWith:@"test.textpack" error:&e];
-    
-    XCTAssertNil(e);
-    XCTAssertNotNil(fw);
-
-    NSURL *targetURL = [[NSFileManager.defaultManager URLForDirectory:NSItemReplacementDirectory
-                                                             inDomain:NSUserDomainMask
-                                                    appropriateForURL:[NSURL fileURLWithPath:@"test.textpack"]
-                                                               create:YES
-                                                                error:nil] URLByAppendingPathComponent:@"test.textpack"];
-    
-    BOOL success = [fw writeToURL:targetURL options:0 originalContentsURL:nil error:&e];
-    
-    XCTAssertNil(e);
-    XCTAssertTrue(success);
-}
-
 @end
