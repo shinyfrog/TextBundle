@@ -205,16 +205,12 @@ import CoreServices
     /// - Parameter filewrapper:  A NSFileWrapper to add to the TextBundleWrapper's assets
     /// - Returns: The updated filename of the added asset
     @objc public func addAssetFileWrapper(_ filewrapper: FileWrapper) -> String? {
-        let originalFilename = filewrapper.filename != nil ? filewrapper.filename : filewrapper.preferredFilename
-        guard (originalFilename != nil) else {
+        guard let originalFilename = filewrapper.filename ?? filewrapper.preferredFilename,
+              let currentFilenames = self.assetsFileWrapper.fileWrappers?.keys else {
             return nil
         }
 
-        guard let currentFilenames = self.assetsFileWrapper.fileWrappers?.keys else {
-            return nil
-        }
-
-        var filename = originalFilename!
+        var filename = originalFilename
         var filenameCount = 1
         var shouldAddFileWrapper = true
         
@@ -248,27 +244,23 @@ import CoreServices
     // MARK: - Metadata
         
     @objc public func applicationSpecificMetadata(for identifier: String?) -> [String: Any]? {
-        var key: String = identifier ?? ""
-        if identifier == nil {
-            key = Bundle.main.bundleIdentifier ?? ""
-        }
-            
+        let key = identifier ?? Bundle.main.bundleIdentifier ?? ""
         return self.metadata[key] as? [String: Any]
     }
     
     @objc public func addApplicationSpecificMetadata(_ metadata: Any, for key: String, identifier: String?) {
-        var applicationSpecificMetadata = self.applicationSpecificMetadata(for: identifier)
-        if applicationSpecificMetadata == nil {
-            applicationSpecificMetadata = [String : Any]()
-        }
-        applicationSpecificMetadata![key] = metadata
+        var applicationSpecificMetadata = self.applicationSpecificMetadata(for: identifier) ?? [:]
+        applicationSpecificMetadata[key] = metadata
 
+        let id = identifier ?? Bundle.main.bundleIdentifier ?? ""
+        self.metadata[id] = applicationSpecificMetadata
+    }
+    
+    @objc public func removeApplicationSpecificMetadata(for key: String, identifier: String?) {
+        var applicationSpecificMetadata = self.applicationSpecificMetadata(for: identifier) ?? [:]
+        applicationSpecificMetadata.removeValue(forKey: key)
         
-        var id: String = identifier ?? ""
-        if identifier == nil {
-            id = Bundle.main.bundleIdentifier ?? ""
-        }
-        
+        let id = identifier ?? Bundle.main.bundleIdentifier ?? ""
         self.metadata[id] = applicationSpecificMetadata
     }
 
