@@ -186,7 +186,7 @@
     // Adding some metadata
     [tb addApplicationSpecificMetadata:@"data" for:@"key" identifier:@"test"];
 
-    // trying to re-read it
+    // Trying to re-read it
     NSDictionary *dict = [tb applicationSpecificMetadataFor:@"test"];
     
     XCTAssertEqualObjects(dict, @{@"key":@"data"});
@@ -198,6 +198,14 @@
     dict = [tb applicationSpecificMetadataFor:@"test"];
     
     XCTAssertEqualObjects(dict, @{@"key":@"data2"});
+    
+    // Removing it
+    [tb removeApplicationSpecificMetadataFor:@"key" identifier:@"test"];
+    
+    // Reading it again
+    dict = [tb applicationSpecificMetadataFor:@"test"];
+    
+    XCTAssertEqualObjects(dict, @{});
 }
 
 
