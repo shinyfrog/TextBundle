@@ -38,6 +38,12 @@ import CoreServices
     /// }
     @objc public var metadata: [String: Any] = [:]
         
+    
+    /// Whether or not the bundle will try to prevent duplication of the same asset file (same name, same data)
+    /// If this is set to true the bundle will not duplicate a file that already exist in the bundle.
+    @objc public var preventAssetDuplication: Bool = false
+
+    
     // MARK: - Init
 
     @objc public override init() {
@@ -216,7 +222,7 @@ import CoreServices
         
         while currentFilenames.contains(filename) {
             // Same filename and same data, we can skip adding this file
-            if let existingFileWrapper = self.assetsFileWrapper.fileWrappers?[filename],
+            if self.preventAssetDuplication, let existingFileWrapper = self.assetsFileWrapper.fileWrappers?[filename],
                filewrapper.regularFileContents == existingFileWrapper.regularFileContents {
                 shouldAddFileWrapper = false
                 break
