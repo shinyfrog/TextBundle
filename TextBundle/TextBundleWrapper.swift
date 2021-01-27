@@ -207,7 +207,8 @@ import CoreServices
 
     
     /// Add a NSFileWrapper to the TextBundleWrapper's assetFileWrapper.
-    /// If a file have the same name of an exiting file the name will be changed and if the file has the same content this method will do nothing.
+    /// If a file have the same name of an exiting file the name will be updated to avoid conflicts.
+    /// With `preventAssetDuplication` set as `true` if the name and file content are the same this method does nothing.
     /// - Parameter filewrapper:  A NSFileWrapper to add to the TextBundleWrapper's assets
     /// - Returns: The updated filename of the added asset
     @objc public func addAssetFileWrapper(_ filewrapper: FileWrapper) -> String? {
@@ -230,16 +231,24 @@ import CoreServices
             
             // Same filename, different data, changing the name
             filenameCount += 1
-            var url = URL(fileURLWithPath: filename)
+            var url = URL(fileURLWithPath: originalFilename)
             let fileExtension = url.pathExtension
             url.deletePathExtension()
             filename = url.lastPathComponent + " \(filenameCount)." + fileExtension
-            filewrapper.filename = filename
-            filewrapper.preferredFilename = filename
         }
         
         if shouldAddFileWrapper {
-            filename = self.assetsFileWrapper.addFileWrapper(filewrapper)
+            // If we already have this specific filewrapper we just add a new one with the same content
+            if self.assetsFileWrapper.fileWrappers?.values.contains(filewrapper) ?? false {
+                self.assetsFileWrapper.addRegularFile(withContents: filewrapper.regularFileContents!, preferredFilename: filename)
+            }
+            // Adding the filewrapper with the correct filename
+            else {
+                filewrapper.filename = filename
+                filewrapper.preferredFilename = filename
+
+                filename = self.assetsFileWrapper.addFileWrapper(filewrapper)
+            }
         }
         
         return filename

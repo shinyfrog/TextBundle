@@ -159,10 +159,10 @@
     XCTAssertEqualObjects(filename, @"sample asset.jpg");
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
 
-    // Adding the same filewrapper again should do nothing
+    // Adding the same filewrapper again should duplicate it with a new name
     filename = [tb addAssetFileWrapper:assetFileWrapper];
-    XCTAssertEqualObjects(filename, @"sample asset.jpg");
-    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+    XCTAssertEqualObjects(filename, @"sample asset 2.jpg");
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 2);
 
     // Adding a different file with the same name should update the new name
     NSURL *assetURL2 = [[NSBundle bundleForClass:[self class]] URLForResource:@"sample asset 2" withExtension:@"jpg"];
@@ -171,8 +171,8 @@
     assetFileWrapper2.filename = @"sample asset.jpg";
     assetFileWrapper2.preferredFilename = @"sample asset.jpg";
     filename = [tb addAssetFileWrapper:assetFileWrapper2];
-    XCTAssertEqualObjects(filename, @"sample asset 2.jpg");
-    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 2);
+    XCTAssertEqualObjects(filename, @"sample asset 3.jpg");
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 3);
 }
 
 
