@@ -12,10 +12,10 @@
 		0C256C9422200B2800CB89C9 /* TextBundle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C256C6C221FFA1600CB89C9 /* TextBundle.framework */; };
 		0C256C9F22202ED000CB89C9 /* text plus attachments.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9D22202ED000CB89C9 /* text plus attachments.textbundle */; };
 		0C256CA022202ED000CB89C9 /* only text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0C256C9E22202ED000CB89C9 /* only text.textbundle */; };
+		0C46EC8327342C3C00A1CBDC /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 0C46EC8227342C3C00A1CBDC /* Zip */; };
+		0C46EC8527342C4B00A1CBDC /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 0C46EC8427342C4B00A1CBDC /* Zip */; };
 		0C5DE019222EABA600ADC323 /* sample asset.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DE018222EABA600ADC323 /* sample asset.jpg */; };
 		0C5DE01B222EACC800ADC323 /* sample asset 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DE01A222EACC800ADC323 /* sample asset 2.jpg */; };
-		0C7375A127034AEA00701C05 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 0C7375A027034AEA00701C05 /* Zip */; };
-		0C7375B727034EBE00701C05 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 0C7375B627034EBE00701C05 /* Zip */; };
 		0CB23603222195BD005A4E82 /* invalid no text.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23601222195BD005A4E82 /* invalid no text.textbundle */; };
 		0CB23604222195BD005A4E82 /* invalid no info.textbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0CB23602222195BD005A4E82 /* invalid no info.textbundle */; };
 		0CB2361222241595005A4E82 /* TextBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0CB2361022241595005A4E82 /* TextBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C7375A127034AEA00701C05 /* Zip in Frameworks */,
+				0C46EC8327342C3C00A1CBDC /* Zip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C7375B727034EBE00701C05 /* Zip in Frameworks */,
+				0C46EC8527342C4B00A1CBDC /* Zip in Frameworks */,
 				0CB2361B2224162D005A4E82 /* CoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,7 +206,7 @@
 			);
 			name = "TextBundle-Mac";
 			packageProductDependencies = (
-				0C7375A027034AEA00701C05 /* Zip */,
+				0C46EC8227342C3C00A1CBDC /* Zip */,
 			);
 			productName = "TextBundle-Mac";
 			productReference = 0C256C6C221FFA1600CB89C9 /* TextBundle.framework */;
@@ -245,7 +245,7 @@
 			);
 			name = "TextBundle-iOS";
 			packageProductDependencies = (
-				0C7375B627034EBE00701C05 /* Zip */,
+				0C46EC8427342C4B00A1CBDC /* Zip */,
 			);
 			productName = "TextBundle-iOS";
 			productReference = 0CB2360E22241595005A4E82 /* TextBundle.framework */;
@@ -282,7 +282,7 @@
 			);
 			mainGroup = 0C256C60221FF9CC00CB89C9;
 			packageReferences = (
-				0C73759F27034AEA00701C05 /* XCRemoteSwiftPackageReference "Zip" */,
+				0C46EC8127342C3C00A1CBDC /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 0C256C6D221FFA1600CB89C9 /* Products */;
 			projectDirPath = "";
@@ -917,25 +917,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0C73759F27034AEA00701C05 /* XCRemoteSwiftPackageReference "Zip" */ = {
+		0C46EC8127342C3C00A1CBDC /* XCRemoteSwiftPackageReference "Zip" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/marmelroy/Zip";
+			repositoryURL = "https://github.com/maparoni/Zip";
 			requirement = {
-				kind = revision;
-				revision = 059e7346082d02de16220cd79df7db18ddeba8c3;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0C7375A027034AEA00701C05 /* Zip */ = {
+		0C46EC8227342C3C00A1CBDC /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0C73759F27034AEA00701C05 /* XCRemoteSwiftPackageReference "Zip" */;
+			package = 0C46EC8127342C3C00A1CBDC /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;
 		};
-		0C7375B627034EBE00701C05 /* Zip */ = {
+		0C46EC8427342C4B00A1CBDC /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0C73759F27034AEA00701C05 /* XCRemoteSwiftPackageReference "Zip" */;
+			package = 0C46EC8127342C3C00A1CBDC /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;
 		};
 /* End XCSwiftPackageProductDependency section */
