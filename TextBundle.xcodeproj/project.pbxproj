@@ -921,8 +921,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/maparoni/Zip";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				kind = revision;
+				revision = 059e7346082d02de16220cd79df7db18ddeba8c3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
