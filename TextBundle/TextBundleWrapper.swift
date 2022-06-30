@@ -211,6 +211,7 @@ import CoreServices
     /// With `preventAssetDuplication` set as `true` if the name and file content are the same this method does nothing.
     /// - Parameter filewrapper:  A NSFileWrapper to add to the TextBundleWrapper's assets
     /// - Returns: The updated filename of the added asset
+    @discardableResult
     @objc public func addAssetFileWrapper(_ filewrapper: FileWrapper) -> String? {
         guard let originalFilename = filewrapper.filename ?? filewrapper.preferredFilename,
               let currentFilenames = self.assetsFileWrapper.fileWrappers?.keys else {
