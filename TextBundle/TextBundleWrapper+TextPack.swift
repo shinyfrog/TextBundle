@@ -13,7 +13,6 @@ extension TextBundleWrapper {
         let temporaryDirectoryURL = try TextBundleWrapper.temporaryDirectoryURL()
         
         TextBundleWrapper.addValidZipFileExtension("textpack")
-        TextBundleWrapper.addValidZipFileExtension("bearnote")
         
         try Zip.unzipFile(textPackURL, destination: temporaryDirectoryURL, overwrite: true, password: nil)
         
