@@ -287,7 +287,7 @@ import CoreServices
         allMetadata[TextBundleWrapper.TextBundleTransient] = self.transient
         allMetadata[TextBundleWrapper.TextBundleCreatorIdentifier] = self.creatorIdentifier
         
-        let json = try? JSONSerialization.data(withJSONObject: allMetadata, options: .prettyPrinted)
+        let json = try? JSONSerialization.data(withJSONObject: allMetadata, options: [.prettyPrinted, .sortedKeys])
         return json
     }
     
