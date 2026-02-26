@@ -99,6 +99,7 @@
 				0CB236192224162D005A4E82 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		0C256C6D221FFA1600CB89C9 /* Products */ = {
 			isa = PBXGroup;
