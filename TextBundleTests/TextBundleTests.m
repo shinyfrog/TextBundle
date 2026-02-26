@@ -175,6 +175,22 @@
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 3);
 }
 
+- (void)testAssetLookup
+{
+    NSURL *fileURL = [self textBundleURLForFilename:@"text plus attachments"];
+    NSError *e = nil;
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
+    XCTAssertNil(e);
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+
+    XCTAssertNotNil([tb assetFileWrapperForFilePath:@"assets/oh no.jpg"]);
+    XCTAssertNotNil([tb assetFileWrapperForFilePath:@"./assets/oh no.jpg"]);
+    XCTAssertNil([tb assetFileWrapperForFilePath:@"oh no.jpg"], @"a path relative to the bundle is required");
+    XCTAssertNil([tb assetFileWrapperForFilePath:@"/tmp/bad/things/happen/oh no.jpg"], @"Non-existing path should not find the asset even though the filename matches");
+    XCTAssertNil([tb assetFileWrapperForFilePath:@"../sample asset.jpg"], @"Accessing files outside the bundle (relative to the bundle itself) should not work");
+    XCTAssertNil([tb assetFileWrapperForFilePath:@"../../sample asset.jpg"], @"Accessing files outside the bundle (relative to the ./asset/ subdir) should not work");
+}
+
 
 #pragma mark - Metadata
 
