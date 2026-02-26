@@ -191,7 +191,20 @@ import CoreServices
     
     // MARK: - Assets
     
-    
+    @objc(assetFileWrapperForFilePath:) public func assetFileWrapper(filePath: String) -> FileWrapper? {
+        let pathComponents = (filePath as NSString).pathComponents
+
+        // Skip absolute paths even if they would point into the text bundle.
+        guard pathComponents.first != "/" else { return nil }
+        // Only permit 'assets/file.png' relative paths.
+        guard let filename = pathComponents.last,
+              case let pathComponentsToFile = pathComponents.dropLast(),
+              pathComponentsToFile.filter({ $0 != "." }) == ["assets"]
+        else { return nil }
+
+        return fileWrapper(for: filename)
+    }
+
     ///  Return the filewrapper represeting an asset or nil if there is no asset named with filename
     /// - Parameter assetFilename: A filename in the asset/ folder
     /// - Returns: A NSFilewrapper represeting filename or nil it the file doesn't exist
