@@ -62,7 +62,7 @@
     NSError *e = nil;
     TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:&e];
     
-    NSFileWrapper *assetWrapper = [tb fileWrapperFor:@"oh no.jpg"];
+    NSFileWrapper *assetWrapper = [tb assetFileWrapperNamed:@"oh no.jpg"];
     
     XCTAssertNil(e);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
@@ -183,12 +183,12 @@
     XCTAssertNil(e);
     XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
 
-    XCTAssertNotNil([tb assetFileWrapperForFilePath:@"assets/oh no.jpg"]);
-    XCTAssertNotNil([tb assetFileWrapperForFilePath:@"./assets/oh no.jpg"]);
-    XCTAssertNil([tb assetFileWrapperForFilePath:@"oh no.jpg"], @"a path relative to the bundle is required");
-    XCTAssertNil([tb assetFileWrapperForFilePath:@"/tmp/bad/things/happen/oh no.jpg"], @"Non-existing path should not find the asset even though the filename matches");
-    XCTAssertNil([tb assetFileWrapperForFilePath:@"../sample asset.jpg"], @"Accessing files outside the bundle (relative to the bundle itself) should not work");
-    XCTAssertNil([tb assetFileWrapperForFilePath:@"../../sample asset.jpg"], @"Accessing files outside the bundle (relative to the ./asset/ subdir) should not work");
+    XCTAssertNotNil([tb assetFileWrapperAtPath:@"assets/oh no.jpg"]);
+    XCTAssertNotNil([tb assetFileWrapperAtPath:@"./assets/oh no.jpg"]);
+    XCTAssertNil([tb assetFileWrapperAtPath:@"oh no.jpg"], @"a path relative to the bundle is required");
+    XCTAssertNil([tb assetFileWrapperAtPath:@"/tmp/bad/things/happen/oh no.jpg"], @"Non-existing path should not find the asset even though the filename matches");
+    XCTAssertNil([tb assetFileWrapperAtPath:@"../sample asset.jpg"], @"Accessing files outside the bundle (relative to the bundle itself) should not work");
+    XCTAssertNil([tb assetFileWrapperAtPath:@"../../sample asset.jpg"], @"Accessing files outside the bundle (relative to the ./asset/ subdir) should not work");
 }
 
 

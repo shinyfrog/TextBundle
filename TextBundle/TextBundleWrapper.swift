@@ -191,8 +191,17 @@ import CoreServices
     
     // MARK: - Assets
     
-    @objc(assetFileWrapperForFilePath:) public func assetFileWrapper(filePath: String) -> FileWrapper? {
-        let pathComponents = (filePath as NSString).pathComponents
+    /// Returns the file wrapper for an asset at a bundle-relative path.
+    ///
+    /// The path must point into the `assets/` directory (e.g. `"assets/image.png"`
+    /// or `"./assets/image.png"`). Absolute paths and directory-traversal attempts
+    /// (e.g. `"../secret.txt"`) are rejected.
+    ///
+    /// - Parameter path: A bundle-relative path such as `"assets/photo.jpg"`.
+    /// - Returns: The matching ``FileWrapper``, or `nil` if the path is invalid
+    ///   or no asset with that filename exists.
+    @objc(assetFileWrapperAtPath:) public func assetFileWrapper(atPath path: String) -> FileWrapper? {
+        let pathComponents = (path as NSString).pathComponents
 
         // Skip absolute paths even if they would point into the text bundle.
         guard pathComponents.first != "/" else { return nil }
@@ -202,28 +211,45 @@ import CoreServices
               pathComponentsToFile.filter({ $0 != "." }) == ["assets"]
         else { return nil }
 
-        return fileWrapper(for: filename)
+        return self.assetFileWrapper(named: filename)
     }
 
-    ///  Return the filewrapper represeting an asset or nil if there is no asset named with filename
-    /// - Parameter assetFilename: A filename in the asset/ folder
-    /// - Returns: A NSFilewrapper represeting filename or nil it the file doesn't exist
-    @objc public func fileWrapper(for assetFilename: String) -> FileWrapper? {
+    /// Returns the file wrapper for an asset with the given filename.
+    ///
+    /// Looks up the asset by comparing against both ``FileWrapper/filename``
+    /// and ``FileWrapper/preferredFilename``.
+    ///
+    /// - Parameter filename: A bare filename such as `"photo.jpg"` (no path prefix).
+    /// - Returns: The matching ``FileWrapper``, or `nil` if no asset has that name.
+    @objc(assetFileWrapperNamed:) public func assetFileWrapper(named filename: String) -> FileWrapper? {
         for (_, fw) in self.assetsFileWrapper.fileWrappers ?? [:] {
-            if fw.filename == assetFilename || fw.preferredFilename == assetFilename {
+            if fw.filename == filename || fw.preferredFilename == filename {
                 return fw
             }
         }
-        
+
         return nil
     }
 
+    /// Removes an asset from the bundle.
+    ///
+    /// - Parameter fileWrapper: The ``FileWrapper`` to remove from the `assets/` directory.
+    @objc public func removeAssetFileWrapper(_ fileWrapper: FileWrapper) {
+        self.assetsFileWrapper.removeFileWrapper(fileWrapper)
+    }
+
     
-    /// Add a NSFileWrapper to the TextBundleWrapper's assetFileWrapper.
-    /// If a file have the same name of an exiting file the name will be updated to avoid conflicts.
-    /// With `preventAssetDuplication` set as `true` if the name and file content are the same this method does nothing.
-    /// - Parameter filewrapper:  A NSFileWrapper to add to the TextBundleWrapper's assets
-    /// - Returns: The updated filename of the added asset
+    /// Adds a file wrapper to the bundle's `assets/` directory.
+    ///
+    /// When a file with the same name already exists the incoming wrapper is
+    /// renamed to avoid collisions (e.g. `"image 2.png"`).
+    /// If ``preventAssetDuplication`` is `true` and an existing asset has both the
+    /// same name *and* identical contents, the addition is skipped and the
+    /// existing filename is returned.
+    ///
+    /// - Parameter filewrapper: The ``FileWrapper`` to add.
+    /// - Returns: The bare filename under which the asset was stored, or `nil`
+    ///   if the wrapper has no usable filename.
     @discardableResult
     @objc public func addAssetFileWrapper(_ filewrapper: FileWrapper) -> String? {
         guard let originalFilename = filewrapper.filename ?? filewrapper.preferredFilename,
