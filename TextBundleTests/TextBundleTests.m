@@ -191,6 +191,21 @@
     XCTAssertNil([tb assetFileWrapperAtPath:@"../../sample asset.jpg"], @"Accessing files outside the bundle (relative to the ./asset/ subdir) should not work");
 }
 
+- (void)testRemoveAsset
+{
+    NSURL *fileURL = [self textBundleURLForFilename:@"only text"];
+    TextBundleWrapper *tb = [[TextBundleWrapper alloc] initWithUrl:fileURL options:NSFileWrapperReadingImmediate error:nil];
+
+    NSURL *assetURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"sample asset" withExtension:@"jpg"];
+    NSFileWrapper *assetFW = [[NSFileWrapper alloc] initWithURL:assetURL options:0 error:nil];
+    [tb addAssetFileWrapper:assetFW];
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 1);
+
+    [tb removeAssetFileWrapper:assetFW];
+    XCTAssertEqual(tb.assetsFileWrapper.fileWrappers.count, 0);
+    XCTAssertNil([tb assetFileWrapperNamed:@"sample asset.jpg"]);
+}
+
 
 #pragma mark - Metadata
 
