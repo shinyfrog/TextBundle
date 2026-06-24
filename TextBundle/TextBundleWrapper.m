@@ -7,6 +7,7 @@
 
 #import "TextBundleWrapper.h"
 #import <CoreServices/CoreServices.h>
+@import UniformTypeIdentifiers;
 
 // Filenames constants
 NSString * const kTextBundleInfoFileName = @"info.json";
@@ -29,7 +30,9 @@ NSString * const TextBundleErrorDomain = @"TextBundleErrorDomain";
 
 + (BOOL)isTextBundleType:(NSString *)typeName
 {
-    return UTTypeConformsTo((__bridge CFStringRef)typeName, (__bridge CFStringRef)kUTTypeTextBundle);
+    UTType *type = [UTType typeWithIdentifier:typeName];
+    UTType *target = [UTType typeWithIdentifier:kUTTypeTextBundle];
+    return [type conformsToType:target];
 }
 
 - (instancetype)init
